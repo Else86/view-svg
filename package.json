@@ -23,6 +23,7 @@
       }
     ]
   },
+  "license": "MIT",
   "scripts": {
     "vscode:prepublish": "yarn run package",
     "compile": "webpack",
