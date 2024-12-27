@@ -56,9 +56,8 @@ function getSvgMapFromFile(filePath: string): Record<string, string> {
   const fileContent = fs.readFileSync(filePath, "utf-8");
 
   // 正则匹配 export default 后的对象，无论是否有命名
-  const regex = /export\s+default\s+({[\s\S]*?});/;
+  const regex = /export\s+default\s+({[\s\S]*?});?/;
   const match = regex.exec(fileContent);
-
   if (!match) {
     throw new Error("No object found exported as default in the file.");
   }
@@ -78,7 +77,9 @@ function getAllSVGsWebviewContent(svgMap: Record<string, string>): string {
     .map(
       ([name, url]) => `
           <div class="svg-item">
-              <img src="${url}" alt="${name}" />
+              <img src="${
+                url.startsWith("//") ? `https:${url}` : url
+              }" alt="${name}" />
               <p class="svg-name" data-name="${name}">${name}</p>
           </div>
       `
